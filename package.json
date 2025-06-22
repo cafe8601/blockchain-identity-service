@@ -1,0 +1,122 @@
+{
+  "name": "blockchain-identity-service",
+  "version": "1.0.0",
+  "description": "Enterprise-grade W3C DID-compliant blockchain identity verification system with React 18.x + Node.js 20.x + PostgreSQL + IPFS integration",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "services/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "test:unit": "turbo run test:unit",
+    "test:integration": "turbo run test:integration",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "prepare": "husky install",
+    "docker:dev": "docker-compose -f docker-compose.dev.yml up -d",
+    "docker:prod": "docker-compose -f docker-compose.prod.yml up -d",
+    "docker:down": "docker-compose down -v",
+    "docker:logs": "docker-compose logs -f",
+    "migrations:run": "npm run --workspace=@blockchain-identity/backend migrations:run",
+    "migrations:generate": "npm run --workspace=@blockchain-identity/backend migrations:generate",
+    "migrations:rollback": "npm run --workspace=@blockchain-identity/backend migrations:rollback",
+    "seed": "npm run --workspace=@blockchain-identity/backend seed",
+    "start:services": "make services-up",
+    "stop:services": "make services-down",
+    "health-check": "node scripts/health-check.js",
+    "security:audit": "npm audit && npm run --workspace=@blockchain-identity/backend security:audit",
+    "precommit": "lint-staged",
+    "commit": "git-cz",
+    "release": "standard-version",
+    "deploy:staging": "npm run build && npm run docker:prod && ./scripts/deploy-staging.sh",
+    "deploy:production": "npm run build && npm run docker:prod && ./scripts/deploy-production.sh"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-security": "^1.7.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.0",
+    "standard-version": "^9.5.0",
+    "turbo": "^1.11.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "cross-env": "^7.0.3"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "packageManager": "npm@10.2.3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cafe8601/blockchain-identity-service.git"
+  },
+  "keywords": [
+    "blockchain",
+    "identity",
+    "web3",
+    "DID",
+    "W3C",
+    "verifiable-credentials",
+    "zero-knowledge",
+    "microservices",
+    "typescript",
+    "react",
+    "nodejs",
+    "postgresql",
+    "ipfs",
+    "enterprise",
+    "production"
+  ],
+  "author": "Blockchain Identity Team",
+  "license": "MIT",
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "standard-version": {
+    "skip": {
+      "changelog": false,
+      "commit": false,
+      "tag": false
+    }
+  }
+}
